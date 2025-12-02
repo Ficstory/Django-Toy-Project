@@ -1,0 +1,22 @@
+{% extends "contentfetch/base.html" %}
+{% block content %}
+  <h2>{{ stock_name }} 댓글</h2>
+
+  {% if comments %}
+    <ul class="list-group">
+      {% for c in comments %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ c.comment }}
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'contentfetch:delete_comment' c.pk %}" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link text-danger btn-sm">삭제</button>
+          </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>데이터가 없습니다. 잠시 후 다시 시도해 주세요.</p>
+  {% endif %}
+{% endblock %}

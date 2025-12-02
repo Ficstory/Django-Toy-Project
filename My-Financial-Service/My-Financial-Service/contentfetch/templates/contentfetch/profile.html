@@ -1,0 +1,26 @@
+{% extends "contentfetch/base.html" %}
+{% block content %}
+  <h1>{{ request.user.username }}님의 관심 종목</h1>
+
+  <form method="post" action="{% url 'contentfetch:add_interest' %}" class="d-flex mb-3">
+    {% csrf_token %}
+    <input name="stock_name" class="form-control me-2" placeholder="종목명 입력">
+    <button type="submit" class="btn btn-primary">추가</button>
+  </form>
+
+  {% if stocks %}
+    <ul class="list-group">
+      {% for s in stocks %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{% url 'contentfetch:stock_detail' s.stock_name %}">{{ s.stock_name }}</a>
+          <form method="post" action="{% url 'contentfetch:delete_interest' s.pk %}" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link text-danger btn-sm">삭제</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>등록된 관심 종목이 없습니다</p>
+  {% endif %}
+{% endblock %}

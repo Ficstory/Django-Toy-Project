@@ -1,0 +1,9 @@
+{% extends "contentfetch/base.html" %}
+{% block content %}
+  <h2>로그인</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">로그인</button>
+  </form>
+{% endblock %}
